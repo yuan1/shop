@@ -1,0 +1,248 @@
+<div id="content" class="line-middle" ng-controller="userCtrl">
+    <div class="tab">
+        <div class="tab-head text-right">
+            <span class="tab-more"></span>
+            <ul class="tab-nav">
+                <li class="active"><a href="#tab-user">个人资料</a></li>
+                <li><a href="#tab-password">修改密码</a></li>
+                <li><a href="#tab-log">浏览记录</a></li>
+            </ul>
+        </div>
+        <div class="tab-body tab-body-bordered">
+            <div class="tab-panel active" id="tab-user">
+
+                <form onsubmit="return false;" class="form-tips">
+
+                    <div class="form-group" ng-show="errorSave">
+                        <div class="alert alert-red">
+                            <span class="close rotate-hover"></span><strong>警告：</strong>保存失败！
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="successSave">
+                        <div class="alert alert-green">
+                            <span class="close rotate-hover"></span><strong>提示：</strong>保存成功！
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label for="f_username_txt">
+                                用户名/账号
+                            </label>
+                        </div>
+                        <div class="field">
+                            <input type="text" class="input" id="f_username_txt" name="f_username_txt" maxlength="50"
+                                   disabled ng-model="user.username"
+                                   placeholder="英文字母开头的字母、下划线、数字">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label for="f_chinesename_txt">
+                                昵称
+                            </label>
+                        </div>
+                        <div class="field">
+                            <input type="text" class="input" ng-model="user.nickName" id="f_chinesename_txt"
+                                   name="f_chinesename_txt"
+                                   maxlength="15"
+                                   placeholder="输入昵称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label>
+                                性别
+                            </label>
+                        </div>
+                        <div class="field">
+                            <select class="input" ng-model="user.sex">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                                <option selected value="保密">保密</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label for="f_age_txt">
+                                年龄
+                            </label>
+                        </div>
+                        <div class="field">
+                            <input type="text" class="input" id="f_age_txt" ng-model="user.age" name="f_age_txt"
+                                   maxlength="2"
+                                   data-validate="required:请填写年龄,age:请输入年龄，1到99岁" placeholder="输入年龄">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label for="f_date_txt">
+                                出生日期
+                            </label>
+                        </div>
+                        <div class="field">
+                            <input type="date" class="input" id="f_date_txt" ng-model="user.birthDay" name="f_date_txt"
+                                   maxlength="2"
+                                   placeholder="输入日期">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label for="f_email_txt">
+                                电子邮箱
+                            </label>
+                        </div>
+                        <div class="field">
+                            <input type="text" class="input" id="f_email_txt" name="f_email_txt" maxlength="50"
+                                   ng-model="user.email"
+                                   data-validate="required:请输入Email,email:如：123@qq.com,length#<50:字数在0-50个"
+                                   placeholder="请输入电子邮箱">
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="button radius-none icon-hear hao-button" style="width: 200px" ng-click="save()">
+                            确认
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+            <div class="tab-panel" id="tab-log">
+                <table class="table table-hover">
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            标题
+                        </th>
+                        <th>
+                            类别
+                        </th>
+                        <th>
+                            券后价
+                        </th>
+                        <th>
+                            原价
+                        </th>
+                        <th>
+                            剩余数量
+                        </th>
+                        <th>
+                            销量
+                        </th>
+                        <th>
+                            截止日期
+                        </th>
+                        <th>
+                            浏览时间
+                        </th>
+                        <th>
+                            操作
+                        </th>
+                    </tr>
+                    <tr ng-repeat="log in couponLogs">
+                        <td>
+                            {{log.id}}
+                        </td>
+                        <td>
+                            {{log.couponTitle}}
+                        </td>
+                        <td>
+                            {{log.couponType}}
+                        </td>
+                        <td>
+                            {{log.couponPriceAfter}}
+                        </td>
+                        <td>
+                            {{log.couponPrice}}
+                        </td>
+                        <td>
+                            {{log.couponCount}}
+                        </td>
+                        <td>
+                            {{log.couponSales}}
+                        </td>
+                        <td>
+                            {{log.couponDate}}
+                        </td>
+                        <td>
+                            {{log.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}
+                        </td>
+                        <td>
+                            <a href="#!/content/{{log.couponId}}">详情</a>
+                            <a href="javascript:;" ng-click="delete(log.id)">删除</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tab-panel" id="tab-password">
+                <form method="post" ng-submit="register()">
+                    <div class="form-group" ng-show="errorRePassword">
+                        <div class="alert alert-red">
+                            <span class="close rotate-hover"></span><strong>警告：</strong>两次密码输入不一致！
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="errorSaveRePassword">
+                        <div class="alert alert-red">
+                            <span class="close rotate-hover"></span><strong>警告：</strong>修改失败！
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="errorPassword">
+                        <div class="alert alert-red">
+                            <span class="close rotate-hover"></span><strong>警告：</strong>原密码不正确！
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="successSaveRePassword">
+                        <div class="alert alert-green">
+                            <span class="close rotate-hover"></span><strong>提示：</strong>修改成功！
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label for="old_password">
+                                原密码
+                            </label>
+                        </div>
+                        <div class="field">
+                            <input type="password" class="input" id="old_password" name="old_password"
+                                   placeholder="原密码" maxlength="32" ng-model="passwordUser.old"
+                                   data-validate="required:请填写密码,length#>=8:密码长度不符合要求"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label for="new_password">
+                                新密码
+                            </label>
+                        </div>
+                        <div class="field">
+                            <input type="password" class="input" id="new_password" name="new_password"
+                                   placeholder="原密码" maxlength="32" ng-model="passwordUser.password"
+                                   data-validate="required:请填写密码,length#>=8:密码长度不符合要求"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="label">
+                            <label for="re_password">
+                                确认密码
+                            </label>
+                        </div>
+                        <div class="field">
+                            <input type="password" class="input" id="re_password" name="re_password"
+                                   placeholder="原密码" maxlength="32" ng-model="passwordUser.repeat"
+                                   data-validate="required:请填写密码,length#>=8:密码长度不符合要求"/>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="button radius-none icon-hear hao-button" style="width: 200px"
+                                ng-click="rePassword()">
+                            确认修改
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="lib/pintuer.js" charset="utf8"></script>

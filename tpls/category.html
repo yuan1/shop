@@ -1,0 +1,29 @@
+<div id="content" class="line-middle" ng-controller="categoryCtrl">
+    <div class="post xl12 xs4 xm3 padding-bottom " ng-repeat=" shop in shops">
+        <div class="box">
+            <a class="box-img" href="#!/content/{{shop.id}}">
+                <img src="{{shop.pic}}"
+                     class="img-responsive" alt=""/>
+            </a>
+            <div class="box-prod">
+                <div class="box-name">
+                    <dt>
+                        <span>{{shop.type}}</span><a href="#!/content/{{shop.id}}">{{shop.goods_name}}</a>
+                    </dt>
+                    <p class="box-txt">
+                        优惠券：<strong>{{shop.price_coupons}}元</strong>
+                    </p>
+                    <dd class="box-price">
+                        <span>￥{{shop.price_after_coupons}}</span>
+                        <del>￥{{shop.price}}</del>
+                    </dd>
+                    <dd class="box-send">已有{{shop.sales}}人购买</dd>
+                </div>
+            </div>
+            <a class="box-btn" href="#!/content/{{shop.id}}"></a>
+        </div>
+    </div>
+    <div class="pagenavi">
+        <a href="javascript:;"  ng-click="pageNext()">继续加载</a>
+    </div>
+</div>

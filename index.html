@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0, user-scalable=no">
+    <title>惠购物</title>
+    <link href="css/pintuer.css" rel="stylesheet" type="text/css"/>
+    <link href="css/iconfont.css" rel="stylesheet" type="text/css"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+</head>
+<body ng-app='shopApp'>
+<div class="layout bg hidden-l">
+    <div class="container height-big" ng-hide="$root.user.login">
+        <span class="float-right">
+            <a href="#!/register">注册</a>
+            <span class="text-little text-gray">|</span>
+            <a href="#!/login">登录</a>
+            <span class="text-little text-gray">|</span> <a href="#!/main">搜索</a>
+        </span>欢迎访问惠购物
+    </div>
+    <div class="container height-big" ng-show="$root.user.login">
+        <span class="float-right">
+            {{$root.user.data.username}}
+            <span class="text-little text-gray">|</span>
+            <a href="#!/user">个人中心</a>
+            <span class="text-little text-gray">|</span>
+            <a href="#!/login">退出</a>
+            <span class="text-little text-gray">|</span>
+            <a href="#!/main">搜索</a>
+        </span>欢迎访问惠购物
+    </div>
+</div>
+<header class="layout page header" ng-show="!$root.main">
+    <div class="container padding-top">
+        <div class="line padding-big-bottom">
+            <div class="xs12 xm4 xb4 text-float">
+                <a href="index.html" title="惠购物-淘宝天猫隐藏优惠卷">
+                    <img src="imgs/logo.png" alt="惠购物-淘宝天猫隐藏优惠卷"/>
+                </a>
+            </div>
+            <div class="xs12 xm8 xb8 hidden-s hidden-l">
+                <a href="index.html" target="_blank">
+                    <img class="float-right br-img" src="imgs/br.jpg"/>
+                </a>
+            </div>
+        </div>
+        <button class="hao-button button icon-navicon" data-target="#nav" ng-hide="$root.mobile">菜单</button>
+        <div class="hao-nav bg-inverse nav-navicon fixed" id="nav" ng-hide="$root.mobile">
+            <ul class="nav nav-inline nav-menu nav-split nav-justified">
+                <li ng-repeat="class in $root.classList" ng-class="{'current-menu-item': $root.active==class.id}">
+                    <a href="#!/category/{{class.id}}">{{class.classname}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="find_nav fixed" ng-show="$root.mobile">
+            <div class="find_nav_left">
+                <div class="find_nav_list" style="left: 0px;">
+                    <ul>
+                        <li ng-repeat="class in $root.classList"
+                            ng-class="{'current-menu-item current-cat': $root.active==class.id}">
+                            <a href="#!/category/{{class.id}}">{{class.classname}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <marquee style="font-size: 14px;color: #ff5777;margin-top: 10px;font-weight: bold;" scrollamount="3">
+            {{$root.notice}}
+        </marquee>
+    </div>
+</header>
+<div class="layout page padding-top">
+    <div class="container" ng-view style="min-height: 900px">
+        加载中……
+    </div>
+</div>
+
+<div id="forgetDialog">
+    <div class="dialog">
+        <div class="dialog-body">
+            请联系管理员：QQ 1739832862</div>
+    </div>
+</div>
+
+<footer class="footer padding-large-top padding-large-bottom margin-large-top">
+    <div class="container-layout">
+        <div class="text-center text-white text-big">
+            <h1 class="margin-large-top margin-large-bottom">「你的支持，就是我们的动力」</h1>
+            &copy; 2017-2018 Shopping 惠购物.<br>粤ICP备14062700号-2
+        </div>
+    </div>
+    <div id="gotop" class="toTop icon-arrow-circle-up"></div>
+</footer>
+<script src="lib/jquery.js" charset="utf8"></script>
+<script src="lib/pintuer.js" charset="utf8"></script>
+<script src="lib/angular.min.js" charset="utf8"></script>
+<script src="lib/angular-route.min.js" charset="utf8"></script>
+<script src="js/app.js"></script>
+<script src="js/controller/main.js"></script>
+<script src="js/controller/content.js"></script>
+<script src="js/controller/category.js"></script>
+<script src="js/controller/search.js"></script>
+<script src="js/controller/login.js"></script>
+<script src="js/controller/register.js"></script>
+<script src="js/controller/user.js"></script>
+<script>
+    $(function () {
+        $('#gotop').hide();
+        $(function () {
+            $(window).scroll(function () {
+                if ($(window).scrollTop() > 300) {
+                    $('#gotop').fadeIn(300);
+                }
+                else {
+                    $('#gotop').fadeOut(200);
+                }
+            });
+            $('#gotop').click(function () {
+                $('body,html').animate({scrollTop: 0}, 300);
+                return false;
+            })
+        });
+
+        var fl_w=$(".find_nav_list").width();
+        var flb_w=$(".find_nav_left").width();
+        $(".find_nav_list").on('touchstart', function (e) {
+            var touch1 = e.originalEvent.targetTouches[0];
+            x1 = touch1.pageX;
+            y1 = touch1.pageY;
+            ty_left = parseInt($(this).css("left"));
+        });
+        $(".find_nav_list").on('touchmove', function (e) {
+            var touch2 = e.originalEvent.targetTouches[0];
+            var x2 = touch2.pageX;
+            var y2 = touch2.pageY;
+            if(ty_left + x2 - x1>=0){
+                $(this).css("left", 0);
+            }else if(ty_left + x2 - x1<=flb_w-fl_w){
+                $(this).css("left", flb_w-fl_w);
+            }else{
+                $(this).css("left", ty_left + x2 - x1);
+            }
+            if(Math.abs(y2-y1)>0){
+                e.preventDefault();
+            }
+        });
+    })
+</script>
+</body>
+</html>

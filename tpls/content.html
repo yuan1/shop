@@ -1,0 +1,65 @@
+<div class="main" ng-controller="contentCtrl">
+    <article id="post-554417431779" class="line-big">
+        <div class="xl12 xs6 xm6">
+            <img src="{{shop.pic}}"
+                 class="img-responsive" alt="{{shop.goods_name}}"/>
+        </div>
+        <div class="xl12 xs6 xm6 col1">
+            <h3>{{shop.goods_name}}</h3>
+
+            <div class="col1-a">
+                <span class="text">{{shop.price_coupons}}元优惠券</span>
+            </div>
+            <div class="col1-b">
+                <span class="xj">用券后<i>¥<strong>{{shop.price_after_coupons}}</strong></i></span>
+                <span class="yj">在售价<i>¥{{shop.price}}</i></span>
+            </div>
+            <div class="col1-c">
+                <span class="zl">商家提供<strong>{{shop.quan_zong}}</strong>张优惠券丨</span>
+                <span class="xl">月销量<strong>{{shop.sales}}</strong>件</span>
+            </div>
+            <div class="col1-d">
+                <a href="{{shop.quan_link}}"
+                   target="_blank">领券</a>
+            </div>
+
+            <div class="col1-d">
+                <a href="{{shop.goods_url}}"
+                   target="_blank">购买</a>
+            </div>
+
+            <div class="col1-e">
+                <p>领券截至日期：{{shop.quan_expired_time}}</p>
+            </div>
+        </div>
+    </article>
+    <div class="jingp">
+        <img src="imgs/jingpintuijian.png"/>
+    </div>
+    <div class="line-middle">
+        <div class="xl12 xs4 xm3 padding-bottom" ng-repeat="shopTop in shopTops">
+            <div class="box">
+                <a class="box-img" href="#!/content/{{shopTop.id}}">
+                    <img src="{{shopTop.pic}}"
+                         class="img-responsive" alt=""/>
+                </a>
+                <div class="box-prod">
+                    <div class="box-name">
+                        <dt>
+                            <span>{{shopTop.type}}</span><a href="#!/content/{{shopTop.id}}">{{shopTop.goods_name}}</a>
+                        </dt>
+                        <p class="box-txt">
+                            优惠券：<strong>{{shopTop.price_coupons}}元</strong>
+                        </p>
+                        <dd class="box-price">
+                            <span>￥{{shopTop.price_after_coupons}}</span>
+                            <del>￥{{shopTop.price}}</del>
+                        </dd>
+                        <dd class="box-send">已有{{shopTop.sales}}人购买</dd>
+                    </div>
+                </div>
+                <a class="box-btn" href="#!/content/{{shopTop.id}}"></a>
+            </div>
+        </div>
+    </div>
+</div>
